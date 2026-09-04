@@ -6,7 +6,7 @@ class HTMLNode():
                  props: dict[str, str] | None = None):
         self.tag = tag
         self.value = value
-        self.__children = children or []
+        self.children = children or []
         self.props = props or {}
 
     def to_html(self):
@@ -18,7 +18,7 @@ class HTMLNode():
         return " ".join(f"{k}={v}" for k, v in self.props.items())
 
     def __repr__(self) -> str:
-        return f"HTMLNode(tag={self.tag}, value={self.value}, children={self.__children}, props={self.props})"
+        return f"HTMLNode(tag={self.tag}, value={self.value}, children={self.children}, props={self.props})"
 
 
 class LeafNode(HTMLNode):
@@ -49,3 +49,25 @@ class LeafNode(HTMLNode):
         return f"LeafNode(tag={self.tag}, value={self.value}, props={self.props})"
 
 
+class ParentNode(HTMLNode):
+    def __init__(self, 
+                 tag: str, 
+                 children: list[HTMLNode] | None, 
+                 props: dict[str, str] | None):
+        super().__init__(tag, None, children, props)
+        self.tag = tag
+        self.children = children or []
+        self.props = props or {}
+
+    def to_html(self):
+        attributes = ""
+        if self.tag is None:
+            raise ValueError("Error: 'tag' cannot be None")
+        if not self.children:
+            raise ValueError("Error: 'children' list cannot be empty")
+        for child_node in self.children:
+            attributes += child_node.to_html()
+        return f"<{self.tag}>{attributes}<{self.tag}>"
+
+    def __repr__(self) -> str:
+        return f"ParentNode(tag={self.tag}, children={self.children}, props={self.props})"
