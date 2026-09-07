@@ -42,7 +42,7 @@ class LeafNode(HTMLNode):
                 return f"<{self.tag}>{self.value}</{self.tag}>"
         
         for k, v in self.props.items():
-            attributes += f" {k}={v}"
+            attributes += f' {k}="{v}"'
         return f'<{self.tag}{attributes}>{self.value}</{self.tag}>'
 
     def __repr__(self) -> str:
