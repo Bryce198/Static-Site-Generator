@@ -2,7 +2,7 @@ from enum import Enum
 from htmlnode import *
 
 class TextType(Enum):
-    PLAIN_TEXT = "plain_text"
+    PLAIN_TEXT = "text"
     BOLD_TEXT = "bold"
     ITALIC_TEXT = "italic"
     CODE_TEXT = "code"
@@ -53,7 +53,9 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
     elif text_node.text_type == TextType.IMAGES.value:
             return LeafNode("img", "", props={"src": f"{text_node.url}", "alt": f"{text_node.text}"})
     raise Exception("Error: must be a TextType")
-    
-        
+
+#text_node_to_html_node takes a textnode as an argument and returns an html leafnode 
+#based on the textnode TextType.
+
         
         
